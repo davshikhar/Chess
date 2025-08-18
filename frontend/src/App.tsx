@@ -1,13 +1,19 @@
-import { useState } from 'react'
+
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import './App.css'
+import { Landing } from './pages/Landing'
+import { Game } from './pages/Game'
 
 function App() {
 
   return (
     <div>
-      <button className='text-2xl font-semibold'>
-        Join
-      </button>
+      <BrowserRouter basename='/app'>
+      <Routes>
+        <Route path="/" element={<Landing/>}></Route>
+        <Route path="/game" element={<Game/>}></Route>
+      </Routes>
+      </BrowserRouter>
     </div>
   )
 }
