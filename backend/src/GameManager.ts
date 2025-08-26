@@ -1,5 +1,5 @@
 import {WebSocket} from"ws";
-import { IN_GAME, MOVE } from "./IN_GAME";
+import { IN_GAME, MOVE } from "./message";
 import { Game } from "./Game";
 
 //this class is going to manage all of the games that we'll be playing.
