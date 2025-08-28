@@ -54,16 +54,28 @@ export const Game = () =>{
         }
     },[socket]);
 
+    // if(!socket){
+    //     return(
+    //         <div>
+    //             <p className="text-white text-3xl">No WebSocket connection yet!!</p>
+    //             <div className="text-white text-2xl">Connecting......</div>
+    //         </div>
+    //     )
+    // }
+
     return(
         <div className="flex justify-center">
             <div className="pt-8 max-w-screen-lg w-full">
                 <div className="grid grid-cols-6 gap-4 w-full">
-                    <div className="col-span-4 w-full flex gap-4">
-                        <div className="col-span-4 w-full flex justify-center">
-                            <ChessBoard board={board}/>
+                    <div className="col-span-4 w-full gap-4 flex justify-center">
+                        <div className="col-span-4 w-full">
+                            <ChessBoard socket={socket} board={board}/>
                         </div>
-                        <div className="col-span-2 w-full">
+                        <div className="col-span-4 w-full flex justify-center mt-4">
                             <Button onClick={()=>navigate("/game")}>Play Game</Button>
+                            {/* <Button onClick={()=>{
+                                socket?.send(JSON.stringify({type: IN_GAME}));
+                            }}>Play Game</Button> */}
                         </div>
                     </div>
                 </div>
