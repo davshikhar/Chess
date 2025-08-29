@@ -18,7 +18,7 @@ export const Game = () =>{
 
     useEffect(()=>{
         if(!socket){
-            console.log("No WebSocket connection");
+            // console.log("No WebSocket connection");
             return;
         }
         socket.onopen = () =>{
@@ -54,14 +54,14 @@ export const Game = () =>{
         }
     },[socket]);
 
-    // if(!socket){
-    //     return(
-    //         <div>
-    //             <p className="text-white text-3xl">No WebSocket connection yet!!</p>
-    //             <div className="text-white text-2xl">Connecting......</div>
-    //         </div>
-    //     )
-    // }
+    if(!socket){
+        return(
+            <div>
+                <p className="text-white text-3xl">No WebSocket connection yet!!</p>
+                <div className="text-white text-2xl">Connecting......</div>
+            </div>
+        )
+    }
 
     return(
         <div className="flex justify-center">
@@ -72,10 +72,11 @@ export const Game = () =>{
                             <ChessBoard socket={socket} board={board}/>
                         </div>
                         <div className="col-span-4 w-full flex justify-center mt-4">
-                            <Button onClick={()=>navigate("/game")}>Play Game</Button>
-                            {/* <Button onClick={()=>{
+                            {/* <Button onClick={()=>navigate("/game")}>Play Game</Button> */}
+                            <Button onClick={()=>{
                                 socket?.send(JSON.stringify({type: IN_GAME}));
-                            }}>Play Game</Button> */}
+                                alert("button clicked");
+                            }}>Play Game</Button>
                         </div>
                     </div>
                 </div>

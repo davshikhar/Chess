@@ -38,6 +38,9 @@ export class GameManager{
                 const game = new Game(this.pendingUser,socket);
                 this.games.push(game);
                 this.pendingUser = null;
+                console.log("inside the in_game");
+                socket.send("Game started");
+                socket.send(message.payload);
                 }
                 else{
                     this.pendingUser = socket;
@@ -45,7 +48,13 @@ export class GameManager{
             }
 
             if(message.type === MOVE){
-
+                const game = this.games.find(g => g.player1 === socket || g.player2 === socket);
+                if(game){
+                    game.makeMove(socket, message.payload);
+                }
+                else{
+                    socket.send("You are not in a game");
+                }
             }
         })
     }

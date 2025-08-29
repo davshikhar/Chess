@@ -15,5 +15,5 @@ ws.on('connection',function connection(wss){
         wss.send("message received");
     });
 
-    wss.send("Something");
+    // wss.send("first message from server");
 })

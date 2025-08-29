@@ -43,18 +43,18 @@ export const ChessBoard = ({board,socket}:ChessBoardProps) => {
                                 if(from && to){
                                     //sending the move to the server
                                     //check if the move is valid
-                                    const move = {from , to};
-                                    try{
-                                        chess.validateFen(move.from);
-                                        chess.validateFen(move.to);
-                                    }catch(e){
-                                        console.log("Invalid move");
-                                        return;             
-
+                                    const move = chess.current.move({from , to});
+                                    if(move){
+                                        console.log("Sending move:", move);
+                                        console.log("valid move");
+                                        socket?.send(JSON.stringify({type:"move", payload:move}));
                                     }
-
-                                    console.log("Sending move:",move);
-                                    socket?.send(JSON.stringify({type:"move",payload:move}));
+                                    else{
+                                        console.log("Invalid move");
+                                        alert("Invalid move");
+                                        console.log("Invalid move from", from , "to", to);
+                                    }
+                                    
                                     setFrom(null);
                                     setTo(null);
 

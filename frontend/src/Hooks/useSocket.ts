@@ -23,8 +23,8 @@ export const useSocket = () => {
 
         return () => {
             //this is the cleanup function that will be called when the component unmounts
-            ws.close();
         };
     },[]);
+    
     return socket;
 }
