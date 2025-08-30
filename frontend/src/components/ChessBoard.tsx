@@ -29,7 +29,8 @@ export const ChessBoard = ({board,socket}:ChessBoardProps) => {
                                 justifyContent: 'center',
                                 fontSize: '24px'
                             }}
-                            onClick={()=>{
+                            onClick={()=>{ 
+                                // alert("clicked");
                                 if(!from){
                                     setFrom(cell?.square || null);
                                 }else if(!to){
@@ -38,12 +39,14 @@ export const ChessBoard = ({board,socket}:ChessBoardProps) => {
                                     setFrom(cell?.square || null);
                                     setTo(null);
                                 }
+                                alert("From: " + from + " To: " + to); 
                                 console.log("From:", from, "To:", to);
                                 //send the move to the server
                                 if(from && to){
                                     //sending the move to the server
                                     //check if the move is valid
                                     const move = chess.current.move({from , to});
+                                    alert("Move: " + move);
                                     if(move){
                                         console.log("Sending move:", move);
                                         console.log("valid move");
@@ -60,7 +63,7 @@ export const ChessBoard = ({board,socket}:ChessBoardProps) => {
 
                                 }
                             }}>
-                            {cell ? `${cell.color === 'w' ? '♙' : '♟'}${cell.type.toUpperCase()}` : ''}
+                            {cell ? `${cell.color === 'w' ? '♙' : '♟'}` : ''}
                         </div>
                     ))}
                 </div>

@@ -12,7 +12,7 @@ ws.on('connection',function connection(wss){
     wss.on('message',function message(data){
         console.log("received :%s",data);
         console.log("message received");
-        wss.send("message received");
+        // wss.send("message received");
     });
 
     // wss.send("first message from server");

@@ -39,7 +39,7 @@ export class GameManager{
                 this.games.push(game);
                 this.pendingUser = null;
                 console.log("inside the in_game");
-                socket.send("Game started");
+                // socket.send("Game started");
                 socket.send(message.payload);
                 }
                 else{
