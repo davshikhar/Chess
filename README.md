@@ -12,7 +12,6 @@ This is a real-time chess application built for web browsers. The project utiliz
 
 ## Technologies Used
 
-- Solidity (Smart Contracts)
 - Node.js
 - Express
 - ws (WebSockets)
