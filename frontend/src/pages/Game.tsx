@@ -69,7 +69,7 @@ export const Game = () =>{
                 <div className="grid grid-cols-6 gap-4 w-full">
                     <div className="col-span-4 w-full gap-4 flex justify-center">
                         <div className="col-span-4 w-full">
-                            <ChessBoard socket={socket} board={board}/>
+                            <ChessBoard chess={chess} setBoard={setBoard} socket={socket} board={board}/>
                         </div>
                         <div className="col-span-4 w-full flex justify-center mt-4">
                             {/* <Button onClick={()=>navigate("/game")}>Play Game</Button> */}

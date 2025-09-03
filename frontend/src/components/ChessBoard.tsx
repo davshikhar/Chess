@@ -5,13 +5,15 @@ import { MOVE } from "../pages/Game";
 interface ChessBoardProps{
     board: ({ square: Square; type: PieceSymbol; color: Color } | null)[][];
     socket:WebSocket | null;
+    chess: Chess;
+    setBoard:any;
 }
 
-export const ChessBoard = ({board,socket}:ChessBoardProps) => {
+export const ChessBoard = ({board,socket,chess,setBoard}:ChessBoardProps) => {
 
     const [from , setFrom] = useState<Square | null>(null);
     const [to , setTo] = useState<Square | null>(null);
-    const chess = useRef(new Chess());
+    // const chess = useRef(new Chess());
 
     // return(
     //     <div>
@@ -90,55 +92,98 @@ export const ChessBoard = ({board,socket}:ChessBoardProps) => {
     //     </div>
     // )
     return (
-        <div className="grid grid-cols-8 gap-0 border-4 border-black w-[400px] h-[400px]">
+        <div className="text-white-200">
             {board && board.map((row,i)=>{
                 return (
-                    <div key={i} className="flex flex-col w-full h-full">
+                    // <div key={i} className="w-full">
+                    //     {row.map((square,j)=>{
+                    //         const sqaureRep = String.fromCharCode(97 + (j%8))+""+ (8 - Math.floor(j/8)) as Square;
+                    //         return(
+                    //             <div
+                    //             className={`w-[50px] h-[50px] flex items-center justify-center text-[24px] ${(i + j) % 2 === 0 ? 'bg-green-500' : 'bg-white'}`} 
+                    //             onClick={()=>{
+                    //                 if(!from){
+                    //                     setFrom(sqaureRep);
+                    //                     return; 
+                    //                 }
+                    //                 else if(!to){
+                    //                     setTo(sqaureRep);
+                    //                     return;
+                    //                 }
+                    //                 else{
+                    //                 setFrom(sqaureRep);
+                    //                 setTo(null);
+                    //                 }
+                    //                 //debugging the code
+                    //                 console.log("clicked on cell:", sqaureRep);
+                                
+                    //                 // Use cell?.square directly for the alert, or use useEffect to react to state changes
+                    //                 alert("From: " + (sqaureRep || null) + " To: " + to);
+                    //                 console.log("From: " + (sqaureRep || null) + " To: " + to);
+                    //                 //send the move to the server
+                    //                 if(from && to){
+                    //                     //sending the move to the server
+                    //                     //check if the move is valid
+                    //                     const move = chess.current.move({from , to});
+                    //                     alert("Move: " + move);
+                    //                     if(move){
+                    //                         console.log("Sending move:", move);
+                    //                         console.log("valid move");
+                    //                         socket?.send(JSON.stringify({type:MOVE, payload:move}));
+                    //                     }
+                    //                     else{
+                    //                         console.log("Invalid move");
+                    //                         alert("Invalid move");
+                    //                         console.log("Invalid move from", from , "to", to);
+                    //                     }
+                                        
+                    //                     setFrom(null);
+                    //                     setTo(null);
+
+                    //                 }
+                    //             }}>
+                    //                 {square ? `${square.color === 'w' ? '♙' : '♟'}` : ''}
+                    //             </div>
+                    //         )
+                    //     })}
+                    // </div>
+                    <div key={i} className="flex w-full">
                         {row.map((square,j)=>{
-                            const sqaureRep = String.fromCharCode(97 + (j%8))+""+ (8 - Math.floor(j/8)) as Square;
+                            const squareRep = String.fromCharCode(97 + (j%8))+""+ (8-i) as Square;
                             return(
                                 <div onClick={()=>{
                                     if(!from){
-                                        setFrom(sqaureRep);
+                                        setFrom(squareRep);
                                         return; 
                                     }
-                                    else if(!to){
-                                        setTo(sqaureRep);
-                                        return;
-                                    }
                                     else{
-                                    setFrom(sqaureRep);
-                                    setTo(null);
+                                        socket?.send(JSON.stringify({type:MOVE, payload:{from , to:squareRep}}));
+                                        setFrom(null);
+                                        chess.move({from , to:squareRep});
+                                        setBoard(chess.board());
+                                        console.log({from , to:squareRep});
+                                        setTo(null);
                                     }
                                     //debugging the code
-                                    console.log("clicked on cell:", sqaureRep);
+                                    console.log("clicked on cell:", squareRep);
                                 
                                     // Use cell?.square directly for the alert, or use useEffect to react to state changes
-                                    alert("From: " + (sqaureRep || null) + " To: " + to);
-                                    console.log("From: " + (sqaureRep || null) + " To: " + to);
+                                    console.log("From: " + (squareRep || null) + " To: " + to);
                                     //send the move to the server
                                     if(from && to){
                                         //sending the move to the server
                                         //check if the move is valid
-                                        const move = chess.current.move({from , to});
-                                        alert("Move: " + move);
-                                        if(move){
-                                            console.log("Sending move:", move);
-                                            console.log("valid move");
-                                            socket?.send(JSON.stringify({type:MOVE, payload:move}));
-                                        }
-                                        else{
-                                            console.log("Invalid move");
-                                            alert("Invalid move");
-                                            console.log("Invalid move from", from , "to", to);
-                                        }
-                                        
                                         setFrom(null);
                                         setTo(null);
 
                                     }
-                                }}>
-
+                                }} key={j} className={`w-16 h-16 text-[24px] ${(i + j) % 2 === 0 ? 'bg-green-500' : 'bg-white'}`}>
+                                    {/* {square ? `${square.color === 'w' ? '♙' : '♟'}` : ''} */}
+                                    <div className="w-full h-full justify-center flex">
+                                        <div>
+                                            {square ? square.type : ' '}    
+                                        </div>
+                                    </div>
                                 </div>
                             )
                         })}
